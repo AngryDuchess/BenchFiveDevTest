@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import {Product,ProductType} from '../types/products'
+import {Product} from '../types/products'
 import Spinner from "./spinner";
 
 const AddProduct: React.FC = () => {
@@ -18,7 +18,6 @@ const AddProduct: React.FC = () => {
   const [submitting, setSubmitting] = useState<boolean>(false)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const navigate = useNavigate();
-  const [image, setImage] = useState<string | null>("");
   const [productSpecificValue, setProductSpecificValue] = useState("");
   const [dimensions, setDimensions] = useState({
     height: "",
@@ -66,7 +65,6 @@ const AddProduct: React.FC = () => {
         const res = await axios.post('https://api.cloudinary.com/v1_1/dn5ks1ljf/upload', formData)
           if (res.data.secure_url) {
             setProduct({...product, image: res.data.secure_url as string})
-            setImage(res.data.secure_url)
           }
         }
       const newProduct = {
