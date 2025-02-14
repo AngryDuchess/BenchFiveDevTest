@@ -26,13 +26,17 @@ a:hover {
 
 body {
   margin: 96px 96px 0px 96px;
-  
- 
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+@media (max-width: 768px) {
+  body {
+    margin: 16px;
+  }
 }
 
 /* button {
