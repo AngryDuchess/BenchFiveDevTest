@@ -12,19 +12,14 @@ interface ProductCardProps {
   onSelect: () => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ image, productName, description, price, sku, productType, productSpecificValue, isSelected, onSelect }) => {
-  const renderProductSpecificValue = () => {
-    switch (productType) {
-      case 'DVD':
-        return `Size: ${productSpecificValue} MB`;
-      case 'Book':
-        return `Weight: ${productSpecificValue} Kg`;
-      case 'Furniture':
-        return `Dimensions: ${productSpecificValue}`;
-      default:
-        return null;
-    }
-  };
+const productTypes =  (str: string
+) => ({
+    DVD: `Size: ${str} MB`,
+    Book: `Weight: ${str} Kg`,
+    Furniture: `Dimensions: ${str}`
+  })
+
+const ProductCard: React.FC<ProductCardProps> = ({ image, productName, price, sku, productType, productSpecificValue, isSelected, onSelect }) => {
 
   return (
     <div
@@ -42,13 +37,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ image, productName, descripti
           className={`mb-2 w-6 h-6 absolute top-3 left-3 rounded-full border-2 border-white ${isSelected ? 'bg-orange-400' : ' bg-gray-600/60'}`}
         ></span>
       </div>
-      <img src={image} className="w-full h-48 object-cover rounded-lg" alt={productName} />
+      <img src={image} className="w-full h-48 object-cover rounded-xl" alt={productName} />
       <div className="flex flex-col gap-3 p-4 items-start">
         <h3 className="text-lg font-bold">{productName}</h3>
-        <p className="text-gray-600">{description}</p>
+        {/* <p className="text-gray-600">{description}</p> */}
         <p className="text-xl font-semibold">{price}</p>
         <p className="text-sm text-gray-500">{sku}</p>
-        <p className="text-sm text-gray-500">{renderProductSpecificValue()}</p>
+        {/* <p className="text-sm text-gray-500">{renderProductSpecificValue()}</p> */}
+        {/* {productType === 'DVD' && (
+            <p className="text-sm text-gray-500">{`Size: ${productSpecificValue} MB`}</p> 
+        )} */}
+        
+
+        <p className="text-sm text-gray-500">{productTypes(productSpecificValue)[productType]}</p>
+
       </div>
     </div>
   );
