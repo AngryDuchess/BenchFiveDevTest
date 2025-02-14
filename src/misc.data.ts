@@ -39,5 +39,59 @@ export const products: Product[] = [
     sku: 'FURN123',
     productType: 'Furniture',
     productSpecificValue: '120 x 60 x 60 cm'
-  }
+  },
+  {
+    image: dvdone,
+    productName: 'Awesome DVD',
+    description: 'A great DVD with lots of content.',
+    price: '$19.99',
+    sku: 'DVD123',
+    productType: 'DVD',
+    productSpecificValue: '700 MB'
+  },
+  {
+    image: dvdone,
+    productName: 'Awesome DVD',
+    description: 'A great DVD with lots of content.',
+    price: '$19.99',
+    sku: 'DVD123',
+    productType: 'DVD',
+    productSpecificValue: '700 MB'
+  },
+  {
+    image: dvdone,
+    productName: 'Awesome DVD',
+    description: 'A great DVD with lots of content.',
+    price: '$19.99',
+    sku: 'DVD123',
+    productType: 'DVD',
+    productSpecificValue: '700 MB'
+  },
+  {
+    image: dvdone,
+    productName: 'Awesome DVD',
+    description: 'A great DVD with lots of content.',
+    price: '$19.99',
+    sku: 'DVD123',
+    productType: 'DVD',
+    productSpecificValue: '700 MB'
+  },
+  {
+    image: dvdone,
+    productName: 'Awesome DVD',
+    description: 'A great DVD with lots of content.',
+    price: '$19.99',
+    sku: 'DVD123',
+    productType: 'DVD',
+    productSpecificValue: '700 MB'
+  },
+  {
+    image: dvdone,
+    productName: 'Awesome DVD',
+    description: 'A great DVD with lots of content.',
+    price: '$19.99',
+    sku: 'DVD123',
+    productType: 'DVD',
+    productSpecificValue: '700 MB'
+  },
 ];
