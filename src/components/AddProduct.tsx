@@ -3,10 +3,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Product } from "../types/products";
 import { Spinner, WarningIcon } from "./spinner";
+import {nanoid } from 'nanoid'
 
 const AddProduct: React.FC = () => {
-  const { index } = useParams<{ index?: string }>();
+  const { id } = useParams<{ id?: string }>();
   const [product, setProduct] = useState<Product>({
+    id: nanoid(),
     image: "",
     price: "",
     sku: "",
@@ -18,6 +20,7 @@ const AddProduct: React.FC = () => {
   });
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [showImageUpload, setShowImageUpload] = useState<boolean>(id === undefined)
   const navigate = useNavigate();
   const [, setProductSpecificValue] = useState("");
   const [dimensions, setDimensions] = useState({
@@ -33,11 +36,11 @@ const AddProduct: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    if (index !== undefined) {
+    if (id !== undefined) {
       const storedProducts = JSON.parse(
         localStorage.getItem("products") || "[]"
       );
-      const existingProduct = storedProducts[parseInt(index)];
+      const existingProduct = storedProducts.find((prod: Product) => prod.id === id);
       if (existingProduct) {
         setProduct({
           ...existingProduct,
@@ -52,7 +55,7 @@ const AddProduct: React.FC = () => {
         }
       }
     }
-  }, [index]);
+  }, [id]);
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -71,7 +74,7 @@ const AddProduct: React.FC = () => {
       !product.sku ||
       !product.productName ||
       !product.price ||
-      !imageFile ||
+      (!imageFile && !id && showImageUpload) ||
       (product.productType === "Furniture" &&
         (!dimensions.height || !dimensions.width || !dimensions.length)) ||
       (product.productType !== "Furniture" && !product.productSpecificValue)
@@ -88,9 +91,9 @@ const AddProduct: React.FC = () => {
 
     const products = JSON.parse(localStorage.getItem("products") || "[]");
     const isDuplicateSKU: boolean = products.some(
-      (existingProduct: Product, i: number) =>
+      (existingProduct: Product) =>
         existingProduct.sku === product.sku &&
-        (index === undefined || i !== parseInt(index))
+        (id === undefined || existingProduct.id !== id)
     );
 
     if (isDuplicateSKU) {
@@ -133,12 +136,22 @@ const AddProduct: React.FC = () => {
       const existingProducts = JSON.parse(
         localStorage.getItem("products") || "[]"
       );
-      if (index !== undefined) {
-        existingProducts[parseInt(index)] = newProduct;
+      if (id) {
+   const updatedProducts = existingProducts.map((p: Product) => {
+    
+    if (p.id === id) {
+      return {
+        ...product, image: imageUrl,
+      };
+    }
+    return p;
+  });
+  localStorage.setItem("products", JSON.stringify(updatedProducts));
+
       } else {
         existingProducts.push(newProduct);
+        localStorage.setItem("products", JSON.stringify(existingProducts));
       }
-      localStorage.setItem("products", JSON.stringify(existingProducts));
       navigate("/");
     } catch (e) {
       console.error(e);
@@ -147,6 +160,7 @@ const AddProduct: React.FC = () => {
       setSubmitting(false);
     }
   };
+
 
   return (
     <>
@@ -157,7 +171,7 @@ const AddProduct: React.FC = () => {
       </Link>
       <header className="flex flex-col lg:flex-row gap-8 py-3 justify-between">
         <p className="text-2xl lg:text-5xl font-semibold">
-          {index !== undefined ? "Edit Product" : "Add a Product"}
+          {id !== undefined ? "Edit Product" : "Add a Product"}
         </p>
         <div className="flex gap-3">
           <button
@@ -166,7 +180,7 @@ const AddProduct: React.FC = () => {
             className="mt-4 bg-amber-600 hover:bg-amber-700 focus text-white py-2 px-4 rounded flex items-center gap-2"
           >
             {submitting && <Spinner />}
-            {index !== undefined ? "Update" : "Save"}
+            {id !== undefined ? "Update" : "Save"}
           </button>
           <Link to="/">
             <button
@@ -244,7 +258,7 @@ const AddProduct: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700">
             Upload product image
           </label>
-          <input
+          {showImageUpload && <input
             type="file"
             id="image"
             name="image"
@@ -252,7 +266,15 @@ const AddProduct: React.FC = () => {
             required
             onChange={handleImageChange}
             className="mt-1 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
-          />
+          />}
+          {product.image && !showImageUpload && (
+            <div className={"max-w-[40px] rounded-xl flex gap-x-4 items center mt-5"}>
+              <img className="rounded" src={product.image} alt={'product uimage'} />
+              <button className="border border-amber-600 px-4 text-amber-600 rounded"
+                onClick={() => setShowImageUpload(true)}
+              >Change</button>
+            </div>
+          )}
           {isImageMissing && (
             <span className="flex gap-1 items-center mt-3">
               <WarningIcon />
