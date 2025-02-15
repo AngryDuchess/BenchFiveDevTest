@@ -5,13 +5,15 @@ import gif from "../assets/loading.gif";
 
 export default function ProductListing() {
   const [products, setProducts] = useState<any[]>([]);
-  const [selectedProductIndex, setSelectedProductIndex] = useState<number | null>(null);
+  const [selectedProductIndex, setSelectedProductIndex] = useState<
+    number | null
+  >(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedProducts = JSON.parse(localStorage.getItem('products') || '[]');
+    const storedProducts = JSON.parse(localStorage.getItem("products") || "[]");
     setProducts(storedProducts);
   }, []);
 
@@ -27,9 +29,11 @@ export default function ProductListing() {
 
   const handleDelete = () => {
     if (selectedProductIndex !== null) {
-      const updatedProducts = products.filter((_, index) => index !== selectedProductIndex);
+      const updatedProducts = products.filter(
+        (_, index) => index !== selectedProductIndex
+      );
       setProducts(updatedProducts);
-      localStorage.setItem('products', JSON.stringify(updatedProducts));
+      localStorage.setItem("products", JSON.stringify(updatedProducts));
       setSelectedProductIndex(null);
     }
   };
@@ -95,15 +99,22 @@ export default function ProductListing() {
             ))}
           </div>
           <div className="flex justify-center mt-8">
-            {Array.from({ length: Math.ceil(products.length / itemsPerPage) }, (_, i) => (
-              <button
-                key={i + 1}
-                onClick={() => paginate(i + 1)}
-                className={`mx-1 px-4 py-2 rounded ${currentPage === i + 1 ? 'bg-amber-600 text-white' : 'bg-gray-200'}`}
-              >
-                {i + 1}
-              </button>
-            ))}
+            {Array.from(
+              { length: Math.ceil(products.length / itemsPerPage) },
+              (_, i) => (
+                <button
+                  key={i + 1}
+                  onClick={() => paginate(i + 1)}
+                  className={`mx-1 px-4 py-2 rounded ${
+                    currentPage === i + 1
+                      ? "bg-amber-600 text-white"
+                      : "bg-gray-200"
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              )
+            )}
           </div>
         </>
       )}

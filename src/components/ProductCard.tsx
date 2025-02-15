@@ -56,10 +56,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         alt={productName}
       />
       <div className="flex flex-col gap-3 p-4 items-start">
-      <Link to={`/product-details/${sku}/${encodeURIComponent(image)}`}>
+        <Link to={`/product-details/${sku}/${encodeURIComponent(image)}`}>
           <h3 className="text-lg text-amber-600 font-bold">{productName}</h3>
-        </Link>   
-               {/* <p className="text-gray-600">{description}</p> */}
+        </Link>
+        {/* <p className="text-gray-600">{description}</p> */}
         <p className="text-xl font-semibold">{price}</p>
         <p className="text-sm text-gray-500">{sku}</p>
         <p className="text-sm text-gray-500">

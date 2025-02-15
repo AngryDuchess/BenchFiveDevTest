@@ -34,7 +34,9 @@ const AddProduct: React.FC = () => {
 
   useEffect(() => {
     if (index !== undefined) {
-      const storedProducts = JSON.parse(localStorage.getItem("products") || "[]");
+      const storedProducts = JSON.parse(
+        localStorage.getItem("products") || "[]"
+      );
       const existingProduct = storedProducts[parseInt(index)];
       if (existingProduct) {
         setProduct({
@@ -42,7 +44,8 @@ const AddProduct: React.FC = () => {
         });
 
         if (existingProduct.productType === "Furniture") {
-          const [height, width, length] = existingProduct.productSpecificValue.split(" x ");
+          const [height, width, length] =
+            existingProduct.productSpecificValue.split(" x ");
           setDimensions({ height, width, length });
         } else {
           setProductSpecificValue(existingProduct.productSpecificValue);
@@ -68,7 +71,7 @@ const AddProduct: React.FC = () => {
       !product.sku ||
       !product.productName ||
       !product.price ||
-      !imageFile || 
+      !imageFile ||
       (product.productType === "Furniture" &&
         (!dimensions.height || !dimensions.width || !dimensions.length)) ||
       (product.productType !== "Furniture" && !product.productSpecificValue)
@@ -85,8 +88,8 @@ const AddProduct: React.FC = () => {
 
     const products = JSON.parse(localStorage.getItem("products") || "[]");
     const isDuplicateSKU: boolean = products.some(
-      (existingProduct: Product, i: number) => 
-        existingProduct.sku === product.sku && 
+      (existingProduct: Product, i: number) =>
+        existingProduct.sku === product.sku &&
         (index === undefined || i !== parseInt(index))
     );
 
@@ -98,7 +101,7 @@ const AddProduct: React.FC = () => {
     }
 
     try {
-      let imageUrl = product.image; 
+      let imageUrl = product.image;
 
       if (imageFile) {
         const formData = new FormData();
@@ -127,7 +130,9 @@ const AddProduct: React.FC = () => {
         createdAt: product.createdAt || new Date().toISOString(),
       };
 
-      const existingProducts = JSON.parse(localStorage.getItem("products") || "[]");
+      const existingProducts = JSON.parse(
+        localStorage.getItem("products") || "[]"
+      );
       if (index !== undefined) {
         existingProducts[parseInt(index)] = newProduct;
       } else {
@@ -142,8 +147,6 @@ const AddProduct: React.FC = () => {
       setSubmitting(false);
     }
   };
-
-  
 
   return (
     <>
@@ -166,12 +169,12 @@ const AddProduct: React.FC = () => {
             {index !== undefined ? "Update" : "Save"}
           </button>
           <Link to="/">
-          <button
-            type="button"
-            className="mt-4  hover:text-red-600 text-gray-500 py-2 px-4  "
-          >
-            Cancel
-          </button>
+            <button
+              type="button"
+              className="mt-4  hover:text-red-600 text-gray-500 py-2 px-4  "
+            >
+              Cancel
+            </button>
           </Link>
         </div>
       </header>
@@ -186,10 +189,10 @@ const AddProduct: React.FC = () => {
             type="text"
             value={product.sku}
             required
-    onChange={(e) => {
-      setProduct({ ...product, sku: e.target.value });
-      setIsProductSKUMissing(false); 
-    }}
+            onChange={(e) => {
+              setProduct({ ...product, sku: e.target.value });
+              setIsProductSKUMissing(false);
+            }}
             className="mt-1 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
           />
         </div>
@@ -209,13 +212,12 @@ const AddProduct: React.FC = () => {
           />
           {isProductNameMissing && (
             <span className="flex gap-1 items-center mt-3">
-                <WarningIcon />
-            <p className="text-red-500 text-xs">
-              Please provide product name
-            </p>
+              <WarningIcon />
+              <p className="text-red-500 text-xs">
+                Please provide product name
+              </p>
             </span>
           )}
-          
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -226,17 +228,15 @@ const AddProduct: React.FC = () => {
             value={product.price}
             required
             onChange={(e) => {
-                setProduct({ ...product, price: e.target.value })
-            setIsProductPriceMissing(false)
+              setProduct({ ...product, price: e.target.value });
+              setIsProductPriceMissing(false);
             }}
             className="mt-1 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
           />
           {isProductPriceMissing && (
             <span className="flex gap-1 items-center mt-3">
-                <WarningIcon />
-            <p className="text-red-500 text-xs">
-              Please provide a price
-            </p>
+              <WarningIcon />
+              <p className="text-red-500 text-xs">Please provide a price</p>
             </span>
           )}
         </div>
@@ -255,15 +255,12 @@ const AddProduct: React.FC = () => {
           />
           {isImageMissing && (
             <span className="flex gap-1 items-center mt-3">
-                <WarningIcon />
-            <p className="text-red-500 text-xs">
-              Image is missing
-            </p>
+              <WarningIcon />
+              <p className="text-red-500 text-xs">Image is missing</p>
             </span>
           )}
         </div>
 
-        
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Product Type
@@ -295,10 +292,9 @@ const AddProduct: React.FC = () => {
                 value={dimensions.height}
                 required
                 onChange={(e) => {
-                    setDimensions({ ...dimensions, height: e.target.value })
-                    setIsProductSpecsMissing(false)
-                }
-            }
+                  setDimensions({ ...dimensions, height: e.target.value });
+                  setIsProductSpecsMissing(false);
+                }}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
               />
               <input
@@ -307,8 +303,8 @@ const AddProduct: React.FC = () => {
                 value={dimensions.width}
                 required
                 onChange={(e) => {
-                  setDimensions({ ...dimensions, width: e.target.value })
-                  setIsProductSpecsMissing(false)
+                  setDimensions({ ...dimensions, width: e.target.value });
+                  setIsProductSpecsMissing(false);
                 }}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
               />
@@ -318,25 +314,21 @@ const AddProduct: React.FC = () => {
                 value={dimensions.length}
                 required
                 onChange={(e) => {
-
-                    setDimensions({ ...dimensions, length: e.target.value })
-                    setIsProductSpecsMissing(false)
-
-                }
-                }
+                  setDimensions({ ...dimensions, length: e.target.value });
+                  setIsProductSpecsMissing(false);
+                }}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
               />
             </div>
             {isProductSpecsMissing && (
-            <span className="flex gap-1 items-center mt-3">
+              <span className="flex gap-1 items-center mt-3">
                 <WarningIcon />
-            <p className="text-red-500 text-xs">
-              Please provide product specifications
-            </p>
-            </span>
-          )}
+                <p className="text-red-500 text-xs">
+                  Please provide product specifications
+                </p>
+              </span>
+            )}
           </div>
-          
         ) : (
           <div>
             <label className="block text-sm font-medium text-gray-700">
@@ -349,19 +341,22 @@ const AddProduct: React.FC = () => {
               value={product.productSpecificValue}
               required
               onChange={(e) => {
-                setProduct({ ...product, productSpecificValue: e.target.value })
-                setIsProductSpecsMissing(false)
+                setProduct({
+                  ...product,
+                  productSpecificValue: e.target.value,
+                });
+                setIsProductSpecsMissing(false);
               }}
               className="mt-1 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
             />
             {isProductSpecsMissing && (
-            <span className="flex gap-1 items-center mt-3">
+              <span className="flex gap-1 items-center mt-3">
                 <WarningIcon />
-            <p className="text-red-500 text-xs">
-              Please provide product specifications
-            </p>
-            </span>
-          )}
+                <p className="text-red-500 text-xs">
+                  Please provide product specifications
+                </p>
+              </span>
+            )}
           </div>
         )}
       </form>
