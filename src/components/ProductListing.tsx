@@ -21,6 +21,8 @@ export default function ProductListing() {
 
   const handleEdit = () => {
     if (selectedProductIndex !== null) {
+      console.log("Editing product at index:", selectedProductIndex);
+      console.log("Product details:", products[selectedProductIndex]);
       navigate(`/edit-product/${selectedProductIndex}`);
     }
   };
@@ -33,6 +35,8 @@ export default function ProductListing() {
       setSelectedProductIndex(null);
     }
   };
+
+  console.log(products)
 
   return (
     <>
@@ -55,7 +59,7 @@ export default function ProductListing() {
               </button>
             </>
           ) : (
-            <Link to="/add-product">
+            <Link to="/new-product">
               <button className="bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-xl ">
                 Add
               </button>
@@ -81,6 +85,7 @@ export default function ProductListing() {
               sku={product.sku}
               productType={product.productType}
               productSpecificValue={product.productSpecificValue}
+              createdAt={product.createdAt}
               isSelected={selectedProductIndex === index}
               onSelect={() => handleSelect(index)}
             />
