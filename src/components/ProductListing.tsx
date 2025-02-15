@@ -7,7 +7,7 @@ export default function ProductListing() {
   const [products, setProducts] = useState<any[]>([]);
   const [selectedProductIndex, setSelectedProductIndex] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10); // Number of items per page
+  const [itemsPerPage] = useState(10);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,12 +34,10 @@ export default function ProductListing() {
     }
   };
 
-  // Calculate the current products to display
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Change page
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
@@ -96,7 +94,6 @@ export default function ProductListing() {
               />
             ))}
           </div>
-          {/* Pagination Controls */}
           <div className="flex justify-center mt-8">
             {Array.from({ length: Math.ceil(products.length / itemsPerPage) }, (_, i) => (
               <button
