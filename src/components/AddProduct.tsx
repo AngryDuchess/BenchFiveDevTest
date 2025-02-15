@@ -160,7 +160,7 @@ const AddProduct: React.FC = () => {
           <button
             type="button"
             onClick={handleSave}
-            className="mt-4 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded flex items-center gap-2"
+            className="mt-4 bg-amber-600 hover:bg-amber-700 focus text-white py-2 px-4 rounded flex items-center gap-2"
           >
             {submitting && <Spinner />}
             {index !== undefined ? "Update" : "Save"}
