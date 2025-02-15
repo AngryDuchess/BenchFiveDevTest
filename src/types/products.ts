@@ -6,8 +6,7 @@ interface Product {
     sku: string;
     productType: ProductType;
     productSpecificValue: string;
-    // isSelected: boolean;
-    // onSelect: () => void;
+    createdAt: string;
 }
 
 type ProductType = "DVD" | "Book" | "Furniture"
