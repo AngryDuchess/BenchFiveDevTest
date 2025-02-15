@@ -2,39 +2,42 @@ import { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import { Link, useNavigate } from "react-router-dom";
 import gif from "../assets/loading.gif";
+import { Product } from "../types/products";
 
 export default function ProductListing() {
-  const [products, setProducts] = useState<any[]>([]);
-  const [selectedProductIndex, setSelectedProductIndex] = useState<
-    number | null
-  >(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<string | null>()
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedProducts = JSON.parse(localStorage.getItem("products") || "[]");
+    storedProducts.sort((a: Product, b: Product) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
     setProducts(storedProducts);
   }, []);
 
-  const handleSelect = (index: number) => {
-    setSelectedProductIndex(index === selectedProductIndex ? null : index);
+  const handleSelect = (id: string) => {
+    setSelectedProduct(id === selectedProduct ? null : id);
   };
 
   const handleEdit = () => {
-    if (selectedProductIndex !== null) {
-      navigate(`/edit-product/${selectedProductIndex}`);
+    if (selectedProduct !== null) {
+      console.log(`You are editing: ${selectedProduct}`)
+      navigate(`/edit-product/${selectedProduct}`);
+      setSelectedProduct(null)
     }
   };
 
   const handleDelete = () => {
-    if (selectedProductIndex !== null) {
+    if (selectedProduct !== null) {
       const updatedProducts = products.filter(
-        (_, index) => index !== selectedProductIndex
+        (p) => p.id !== selectedProduct
       );
       setProducts(updatedProducts);
       localStorage.setItem("products", JSON.stringify(updatedProducts));
-      setSelectedProductIndex(null);
+      setSelectedProduct(null);
     }
   };
 
@@ -49,7 +52,7 @@ export default function ProductListing() {
       <header className="flex justify-between py-3">
         <p className="text-2xl lg:text-5xl font-semibold">Product List</p>
         <div className="flex gap-2 items-center">
-          {selectedProductIndex !== null ? (
+          {selectedProduct ? (
             <>
               <button
                 onClick={handleEdit}
@@ -93,8 +96,10 @@ export default function ProductListing() {
                 productType={product.productType}
                 productSpecificValue={product.productSpecificValue}
                 createdAt={product.createdAt}
-                isSelected={selectedProductIndex === index}
-                onSelect={() => handleSelect(index)}
+                isSelected={selectedProduct === product.id}
+                onSelect={() =>{ 
+                  console.log(index)
+                  handleSelect(product.id)}}
               />
             ))}
           </div>
