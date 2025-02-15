@@ -207,7 +207,7 @@ const AddProduct: React.FC = () => {
               setProduct({ ...product, sku: e.target.value });
               setIsProductSKUMissing(false);
             }}
-            className="mt-1 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
+            className="mt-1 p-3 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
           />
         </div>
         <div>
@@ -222,7 +222,7 @@ const AddProduct: React.FC = () => {
               setProduct({ ...product, productName: e.target.value });
               setIsProductNameMissing(false);
             }}
-            className="mt-1 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
+            className="mt-1 p-3 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
           />
           {isProductNameMissing && (
             <span className="flex gap-1 items-center mt-3">
@@ -245,7 +245,7 @@ const AddProduct: React.FC = () => {
               setProduct({ ...product, price: e.target.value });
               setIsProductPriceMissing(false);
             }}
-            className="mt-1 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
+            className="mt-1 p-3 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
           />
           {isProductPriceMissing && (
             <span className="flex gap-1 items-center mt-3">
@@ -265,7 +265,7 @@ const AddProduct: React.FC = () => {
             accept="image/png, image/jpeg"
             required
             onChange={handleImageChange}
-            className="mt-1 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
+            className="mt-1 p-3 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
           />}
           {product.image && !showImageUpload && (
             <div className={"max-w-[40px] rounded-xl flex gap-x-4 items center mt-5"}>
@@ -295,7 +295,7 @@ const AddProduct: React.FC = () => {
                 productType: e.target.value as "DVD" | "Book" | "Furniture",
               })
             }
-            className="mt-1 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
+            className="mt-1 p-3 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
           >
             <option value="DVD">DVD</option>
             <option value="Book">Book</option>
@@ -328,7 +328,7 @@ const AddProduct: React.FC = () => {
                   setDimensions({ ...dimensions, width: e.target.value });
                   setIsProductSpecsMissing(false);
                 }}
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm"
               />
               <input
                 type="number"
@@ -339,7 +339,7 @@ const AddProduct: React.FC = () => {
                   setDimensions({ ...dimensions, length: e.target.value });
                   setIsProductSpecsMissing(false);
                 }}
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm"
               />
             </div>
             {isProductSpecsMissing && (
@@ -355,8 +355,8 @@ const AddProduct: React.FC = () => {
           <div>
             <label className="block text-sm font-medium text-gray-700">
               {product.productType === "DVD"
-                ? "Please, provide size size (MB)"
-                : "Please, provide size weight (Kg)"}
+                ? "Please, provide size (MB)"
+                : "Please, provide weight (Kg)"}
             </label>
             <input
               type="number"
@@ -369,7 +369,7 @@ const AddProduct: React.FC = () => {
                 });
                 setIsProductSpecsMissing(false);
               }}
-              className="mt-1 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
+              className="mt-1 p-3 block w-full h-11 border border-gray-300 rounded-md shadow-sm"
             />
             {isProductSpecsMissing && (
               <span className="flex gap-1 items-center mt-3">
