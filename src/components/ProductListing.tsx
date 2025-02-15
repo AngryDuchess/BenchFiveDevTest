@@ -1,28 +1,26 @@
 import { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
-// import { products } from "../misc.data";
 import { Link, useNavigate } from "react-router-dom";
-import gif from "../assets/loading.gif"
+import gif from "../assets/loading.gif";
 
 export default function ProductListing() {
   const [products, setProducts] = useState<any[]>([]);
   const [selectedProductIndex, setSelectedProductIndex] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Number of items per page
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const storedProducts = JSON.parse(localStorage.getItem('products') || '[]');
     setProducts(storedProducts);
   }, []);
 
- const handleSelect = (index: number) => {
+  const handleSelect = (index: number) => {
     setSelectedProductIndex(index === selectedProductIndex ? null : index);
   };
 
   const handleEdit = () => {
     if (selectedProductIndex !== null) {
-      console.log("Editing product at index:", selectedProductIndex);
-      console.log("Product details:", products[selectedProductIndex]);
       navigate(`/edit-product/${selectedProductIndex}`);
     }
   };
@@ -36,7 +34,13 @@ export default function ProductListing() {
     }
   };
 
-  console.log(products)
+  // Calculate the current products to display
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <>
@@ -71,26 +75,40 @@ export default function ProductListing() {
       {products.length === 0 ? (
         <div className="flex flex-col gap-3 mt-10 text-center font-sm justify-center items-center h-64">
           <img src={gif} className="w-52 h-auto" alt="Waiting..." />
-        <p>You should probably start adding products now!</p>
+          <p>You should probably start adding products now!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-8">
-          {products.map((product, index) => (
-            <ProductCard
-              key={index}
-              image={product.image}
-              productName={product.productName}
-              description={product.description}
-              price={product.price}
-              sku={product.sku}
-              productType={product.productType}
-              productSpecificValue={product.productSpecificValue}
-              createdAt={product.createdAt}
-              isSelected={selectedProductIndex === index}
-              onSelect={() => handleSelect(index)}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-8">
+            {currentProducts.map((product, index) => (
+              <ProductCard
+                key={index}
+                image={product.image}
+                productName={product.productName}
+                description={product.description}
+                price={product.price}
+                sku={product.sku}
+                productType={product.productType}
+                productSpecificValue={product.productSpecificValue}
+                createdAt={product.createdAt}
+                isSelected={selectedProductIndex === index}
+                onSelect={() => handleSelect(index)}
+              />
+            ))}
+          </div>
+          {/* Pagination Controls */}
+          <div className="flex justify-center mt-8">
+            {Array.from({ length: Math.ceil(products.length / itemsPerPage) }, (_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => paginate(i + 1)}
+                className={`mx-1 px-4 py-2 rounded ${currentPage === i + 1 ? 'bg-amber-600 text-white' : 'bg-gray-200'}`}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+        </>
       )}
     </>
   );
