@@ -11,7 +11,7 @@ const ProductDetails: React.FC = () => {
           ← Go back
         </button>
       </Link>
-      <h1 className="text-3xl font-bold mb-5">Product Details</h1>
+      <p className="text-2xl lg:text-5xl font-semibold mb-10">Product Details</p>
       <div className="flex flex-col">
         <img
           src={image}
