@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 interface ProductCardProps {
   image: string;
@@ -9,6 +10,7 @@ interface ProductCardProps {
   productType: "DVD" | "Book" | "Furniture";
   productSpecificValue: string;
   isSelected: boolean;
+  createdAt: string;
   onSelect: () => void;
 }
 
@@ -54,8 +56,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         alt={productName}
       />
       <div className="flex flex-col gap-3 p-4 items-start">
-        <h3 className="text-lg font-bold">{productName}</h3>
-        {/* <p className="text-gray-600">{description}</p> */}
+      <Link to={`/product-details/${sku}/${encodeURIComponent(image)}`}>
+          <h3 className="text-lg text-amber-600 font-bold">{productName}</h3>
+        </Link>   
+               {/* <p className="text-gray-600">{description}</p> */}
         <p className="text-xl font-semibold">{price}</p>
         <p className="text-sm text-gray-500">{sku}</p>
         <p className="text-sm text-gray-500">
